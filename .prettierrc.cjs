@@ -5,8 +5,11 @@ module.exports = {
   singleQuote: true,
   arrowParens: 'always',
   jsxSingleQuote: false,
-  printWidth: 140,
-  plugins: [require.resolve('prettier-plugin-astro'), require.resolve('prettier-plugin-tailwindcss')],
+  printWidth: 80,
+  plugins: [
+    require.resolve('prettier-plugin-astro'),
+    require.resolve('prettier-plugin-tailwindcss'),
+  ],
   overrides: [{ files: '*.astro', options: { parser: 'astro' } }],
   overrides: [
     {

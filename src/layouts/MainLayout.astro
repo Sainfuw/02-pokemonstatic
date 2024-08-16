@@ -1,4 +1,5 @@
 ---
+import { siteInfo } from '@/consts/site-info'
 import { ViewTransitions } from 'astro:transitions'
 
 interface Props {
@@ -7,7 +8,12 @@ interface Props {
   description?: string
 }
 
-const { title } = Astro.props
+const { author } = siteInfo
+const {
+  title = siteInfo.title,
+  description = siteInfo.description,
+  image,
+} = Astro.props
 ---
 
 <!doctype html>
@@ -17,6 +23,17 @@ const { title } = Astro.props
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+
+    <!-- OG Metatags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Required -->
     <title>{title}</title>
     <ViewTransitions />
   </head>

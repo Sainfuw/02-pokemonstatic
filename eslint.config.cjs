@@ -5,6 +5,6 @@ module.exports = [
   {
     ignores: ['**/node_modules/**', '**/dist/**', '**/.git/**'],
   },
-  ...eslintPluginAstro.configs.recommended,
   eslintPluginPrettierRecommended,
+  ...eslintPluginAstro.configs['flat/recommended'],
 ]
