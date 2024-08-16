@@ -1,22 +1,21 @@
 ---
 interface Props {
-  url: string;
-  name: string;
-  isBig?: boolean;
+  url: string
+  name: string
+  isBig?: boolean
 }
 
-const { name, url, isBig = false } = Astro.props;
-const id = url.split("/").at(-2);
-const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+const { name, url, isBig = false } = Astro.props
+const id = url.split('/').at(-2)
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
 ---
 
 <pokemon-card
   ref={id}
   class:list={[
-    "grid place-items-center gap-2 px-4 py-2",
+    'grid place-items-center gap-2 px-4 py-2',
     {
-      "border-2 rounded-xl hover:scale-105 transition transform duration-300":
-        !isBig,
+      'transform rounded-xl border-2 transition duration-300 hover:scale-105': !isBig,
     },
   ]}
 >
@@ -25,18 +24,18 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     alt={name}
     transition:name={`${name}-image`}
     class:list={[
-      "object-cover",
+      'object-cover',
       {
-        "size-96": isBig,
-        "size-32": !isBig,
+        'size-96': isBig,
+        'size-32': !isBig,
       },
     ]}
   />
   <h3
     class:list={[
-      "capitalize",
+      'capitalize',
       {
-        "text-3xl text-blue-400": isBig,
+        'text-3xl text-blue-400': isBig,
       },
     ]}
   >
@@ -46,19 +45,19 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 </pokemon-card>
 
 <script>
-  import { navigate } from "astro:transitions/client";
+  import { navigate } from 'astro:transitions/client'
 
   class PokemonCard extends HTMLElement {
     constructor() {
-      super();
+      super()
 
-      const id = this.getAttribute("ref");
-      this.addEventListener("click", () => {
-        // navigate(`/pokemons/${nombre}`);
-        navigate(`/pokemon/${id}`);
-      });
+      const id = this.getAttribute('ref')
+      this.addEventListener('click', () => {
+        // navigate(`/pokemons/${nombre}`)
+        navigate(`/pokemon/${id}`)
+      })
     }
   }
 
-  customElements.define("pokemon-card", PokemonCard);
+  customElements.define('pokemon-card', PokemonCard)
 </script>

@@ -1,25 +1,25 @@
 ---
-import PokemonCard from "@/components/pokemons/PokemonCard.basic.astro";
-import type { PokeBasicInfo } from "@/interfaces/pokemon";
-import MainLayout from "@/layouts/MainLayout.astro";
-import type { GetStaticPaths } from "astro";
+import PokemonCard from '@/components/pokemons/PokemonCard.basic.astro'
+import type { PokeBasicInfo } from '@/interfaces/pokemon'
+import MainLayout from '@/layouts/MainLayout.astro'
+import type { GetStaticPaths } from 'astro'
 
 export const getStaticPaths = (async () => {
-  const resp = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-  const { results } = (await resp.json()) as PokeBasicInfo;
+  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+  const { results } = (await resp.json()) as PokeBasicInfo
   return results.map(({ name, url }) => {
-    const id = url.split("/").at(-2);
+    const id = url.split('/').at(-2)
     return {
       params: { id },
       props: { name, url },
-    };
-  });
-}) satisfies GetStaticPaths;
+    }
+  })
+}) satisfies GetStaticPaths
 
-const { id } = Astro.params;
-const { name, url } = Astro.props;
+const { id } = Astro.params
+const { name, url } = Astro.props
 
-const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`
 ---
 
 <MainLayout>
@@ -38,6 +38,6 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 
 <style>
   a {
-    @apply hover:underline text-blue-400;
+    @apply text-blue-400 hover:underline;
   }
 </style>

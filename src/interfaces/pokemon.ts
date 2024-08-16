@@ -1,3 +1,3 @@
 export interface PokeBasicInfo {
-  results: [{ name: string; url: string }];
+  results: [{ name: string; url: string }]
 }
