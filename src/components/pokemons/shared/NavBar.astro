@@ -1,0 +1,37 @@
+---
+const path = Astro.url.pathname
+
+const links = [
+  { name: 'Listado', url: '/' },
+  { name: 'Paginado', url: '/pokemons/1' },
+  { name: 'Favoritos', url: '/favorites' },
+]
+---
+
+<nav>
+  <div
+    class="container mx-auto flex items-center justify-center p-6 capitalize text-gray-600 dark:text-gray-300"
+  >
+    {
+      links.map(({ name, url }) => {
+        const isActive = path.split('/').at(1) === url.split('/').at(1)
+        return (
+          <div class="relative">
+            <a
+              href={url}
+              class="mx-1.5 text-xl text-gray-800 hover:text-white sm:mx-6 dark:text-gray-200"
+            >
+              {name}
+            </a>
+            {isActive && (
+              <div
+                class="absolute inset-4 mt-4 h-1 w-3/4 rounded-full bg-blue-500"
+                transition:name="navbar-underline"
+              />
+            )}
+          </div>
+        )
+      })
+    }
+  </div>
+</nav>

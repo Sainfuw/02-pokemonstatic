@@ -1,5 +1,6 @@
 ---
 import PokemonCard from '@/components/pokemons/PokemonCard.astro'
+import Title from '@/components/pokemons/shared/Title.astro'
 import MainLayout from '@/layouts/MainLayout.astro'
 
 const title = 'Pokemon Static | Home'
@@ -8,7 +9,7 @@ const data = await resp.json()
 ---
 
 <MainLayout title={title}>
-  <h1 class="py-4 text-3xl">Listado de Pokemons</h1>
+  <Title>Listado de Pokemones</Title>
   <section class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
     {
       data.results.map(({ name, url }: any) => (

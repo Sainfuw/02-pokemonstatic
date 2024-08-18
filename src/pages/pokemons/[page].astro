@@ -1,5 +1,6 @@
 ---
 import PokemonCard from '@/components/pokemons/PokemonCard.basic.astro'
+import Title from '@/components/pokemons/shared/Title.astro'
 import type { PokeBasicInfo } from '@/interfaces/pokemon'
 import MainLayout from '@/layouts/MainLayout.astro'
 import type { GetStaticPaths } from 'astro'
@@ -10,14 +11,14 @@ export const getStaticPaths = (async ({ paginate }) => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
   const { results } = (await resp.json()) as PokeBasicInfo
 
-  return paginate(results, { pageSize: 16 })
+  return paginate(results, { pageSize: 12 })
 }) satisfies GetStaticPaths
 
 const { page } = Astro.props
 ---
 
 <MainLayout title={title}>
-  <h1 class="py-4 text-3xl">Listado de Pokemons</h1>
+  <Title>Paginado de Pokemones</Title>
   <section class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
     {
       page.data.map(({ name, url }: any) => (

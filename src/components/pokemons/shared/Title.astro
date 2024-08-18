@@ -1,0 +1,14 @@
+---
+interface Props {
+  capitalize?: boolean
+}
+
+const { capitalize = false } = Astro.props
+---
+
+<div>
+  <h1 class:list={['text-3xl font-bold', { capitalize }]}>
+    <slot />
+  </h1>
+  <div class="my-4 h-1 rounded-xl bg-blue-500"></div>
+</div>
