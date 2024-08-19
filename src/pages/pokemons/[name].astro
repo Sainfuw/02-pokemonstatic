@@ -1,9 +1,9 @@
 ---
-import PokemonCard from '@/components/pokemons/PokemonCard.basic.astro'
+import PokemonCard from '@/components/pokemons/PokemonCard.astro'
 import type { PokeBasicInfo } from '@/interfaces/pokemon'
 import MainLayout from '@/layouts/MainLayout.astro'
 import type { GetStaticPaths } from 'astro'
-import Title from '@/components/pokemons/shared/Title.astro'
+import Title from '@/components/shared/Title.astro'
 import { Icon } from 'astro-icon/components'
 
 export const getStaticPaths = (async () => {
@@ -45,7 +45,7 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
           />
           <Icon
             name="heart-filled"
-            class="hidden size-10 hover:animate-pulse"
+            class="-mt-8 hidden size-10 hover:animate-pulse"
           />
         </button>
       </div>
@@ -66,15 +66,65 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 </style>
 
 <script>
+  import type { FavoritePokemon } from '@/interfaces/pokemon'
+
   const handlePageLoad = () => {
-    const btn = document.querySelector('button[data-id]')
+    let favorites: FavoritePokemon[] = JSON.parse(
+      localStorage.getItem('favorites') || '[]',
+    )
+
+    const btn = document.querySelector('button[data-id]') as HTMLElement
+
+    const toggleFavorites = ({ id, name: _name }: FavoritePokemon) => {
+      const isFavorite = favorites.some(({ name }) => name === _name)
+
+      if (isFavorite) {
+        favorites = favorites.filter(({ name }) => name !== _name)
+      } else {
+        favorites.push({ id, name: _name })
+      }
+
+      localStorage.setItem('favorites', JSON.stringify(favorites))
+    }
 
     btn?.addEventListener('click', () => {
-      const id = btn.getAttribute('data-id')
-      const name = btn.getAttribute('data-name')
-      console.log({ id, name })
+      const id = btn.getAttribute('data-id') as string
+      const name = btn.getAttribute('data-name') as string
+      const heartOutlined = btn.querySelector('[data-icon=heart-outlined]')
+      const heartFilled = btn.querySelector('[data-icon=heart-filled]')
+
+      heartOutlined?.classList.toggle('hidden')
+      heartFilled?.classList.toggle('hidden')
+
+      toggleFavorites({ id, name })
     })
   }
 
   document.addEventListener('astro:page-load', handlePageLoad)
+</script>
+
+<script>
+  import type { FavoritePokemon } from '@/interfaces/pokemon'
+
+  const checkFavorite = () => {
+    const btn = document.querySelector('button[data-id]') as HTMLElement
+
+    if (!btn) return
+
+    const id = btn.getAttribute('data-id') as string
+    const heartOutlined = btn.querySelector('[data-icon=heart-outlined]')
+    const heartFilled = btn.querySelector('[data-icon=heart-filled]')
+
+    const ls = localStorage.getItem('favorites')
+
+    if (ls) {
+      const favorites = JSON.parse(ls) as FavoritePokemon[]
+      if (favorites.some(({ id: _id }) => _id === id)) {
+        heartOutlined?.classList.toggle('hidden')
+        heartFilled?.classList.toggle('hidden')
+      }
+    }
+  }
+
+  document.addEventListener('astro:page-load', checkFavorite)
 </script>
